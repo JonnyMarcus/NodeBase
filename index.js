@@ -1,8 +1,12 @@
 require("dotenv").config();
 
-const {
-  connectToMongoDB,
-  disconnectFromMongoDB,
-} = require("./src/database/connect");
+const app = require("./models/express");
+const { connectToMongoDB } = require("./src/database/connect");
 
-connectToMongoDB();
+const port = process.env.PORT || 8080;
+
+connectToMongoDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Servidor com Express rodando na porta ${port}`);
+  });
+});
