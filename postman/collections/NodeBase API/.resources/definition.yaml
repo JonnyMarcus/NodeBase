@@ -1,0 +1,9 @@
+$kind: collection
+name: NodeBase API
+description: |-
+  REST API for the NodeBase Node.js application.
+  Provides endpoints for health-checking the server and managing users stored in MongoDB.
+variables:
+  - key: baseUrl
+    value: 'http://localhost:8080'
+    description: Base URL of the NodeBase server
