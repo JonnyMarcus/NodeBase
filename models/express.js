@@ -5,8 +5,8 @@ const port = process.env.PORT || 8080;
 
 app.use(express.json());
 
-app.set("views engine", "ejs");
-app.set("views", "../src/views");
+app.set("view engine", "ejs");
+app.set("views", "src/views");
 
 app.get("/home", (req, res) => {
   res.status(200).send("Servidor funcionando!");
@@ -32,7 +32,12 @@ app.get("/users/:id", async (req, res) => {
 });
 
 app.get("/views/users", async (req, res) => {
-  res.render("index");
+  try {
+    const users = await UserModels.find({});
+    res.render("index", { users });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 app.post("/users", async (req, res) => {
@@ -63,7 +68,7 @@ app.patch("/users/:id", async (req, res) => {
 app.delete("/users/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const user = await UserModels.findByIdAndRemove(id);
+    const user = await UserModels.findByIdAndDelete(id);
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
